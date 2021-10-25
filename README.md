@@ -1,4 +1,4 @@
-##React Project - Youtube Clone
+React Project - Youtube Clone
 
 To use this application,
 
