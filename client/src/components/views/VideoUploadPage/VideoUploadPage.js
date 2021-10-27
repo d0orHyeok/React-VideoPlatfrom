@@ -3,6 +3,7 @@ import { Typography, Button, Form, message, Input } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import Dropzone from "react-dropzone";
 import Axios from "axios";
+import { useSelector } from "react-redux";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -18,7 +19,9 @@ const CategoryOptions = [
     { value: 3, label: "Pets & Animals" },
 ];
 
-function VideoUploadPage() {
+function VideoUploadPage(props) {
+    // redux를 이용하여 user state를 가져옴
+    const user = useSelector((state) => state.user);
     const [VideoTitle, setVideoTitle] = useState("");
     const [Description, setDescription] = useState("");
     const [Private, setPrivate] = useState(0);
@@ -73,13 +76,39 @@ function VideoUploadPage() {
         });
     };
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        const variables = {
+            wirter: user.userData._id,
+            title: VideoTitle,
+            description: Description,
+            privacy: Private,
+            filePath: FilePath,
+            category: Category,
+            duration: Duration,
+            thumbnail: ThumbnailPath,
+        };
+
+        Axios.post("/api/video/uploadVideo", variables).then((response) => {
+            if (response.data.success) {
+                message.success("성공적으로 업로드를 했습니다.");
+                setTimeout(() => {
+                    props.history.push("/");
+                }, 2000);
+            } else {
+                alert("Video Upload Fail");
+            }
+        });
+    };
+
     return (
         <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
             <div style={{ textAlign: "center", marginBottom: "2rem" }}>
                 <Title level={2}>Upload Video</Title>
             </div>
 
-            <Form>
+            <Form onSubmit={onSubmit}>
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                     {/* Drop Zone */}
                     <Dropzone onDrop={onDrop} multiple={false} maxSize={100000000}>
@@ -143,7 +172,7 @@ function VideoUploadPage() {
 
                 <br />
                 <br />
-                <Button type="primary" size="large">
+                <Button onClick={onSubmit} type="primary" size="large">
                     Submit
                 </Button>
             </Form>
