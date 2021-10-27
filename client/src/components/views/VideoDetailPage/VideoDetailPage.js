@@ -13,7 +13,7 @@ function VideoDetailPage(props) {
     useEffect(() => {
         Axios.post("/api/video/getVideoDetail", videoVariable).then((response) => {
             if (response.data.success) {
-                setVideoDetail(response.data.video);
+                setVideoDetail(response.data.videoDetail);
             } else {
                 alert("Failed to get video Info");
             }
