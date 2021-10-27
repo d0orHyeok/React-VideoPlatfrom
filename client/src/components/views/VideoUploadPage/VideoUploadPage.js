@@ -80,7 +80,7 @@ function VideoUploadPage(props) {
         e.preventDefault();
 
         const variables = {
-            wirter: user.userData._id,
+            writer: user.userData._id,
             title: VideoTitle,
             description: Description,
             privacy: Private,
