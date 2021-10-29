@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { List, Avatar, Row, Col } from "antd";
 import Axios from "axios";
 import SideVideo from "./Sections/SideVideo";
+import Subscribe from "./Sections/Subscribe";
 
 function VideoDetailPage(props) {
     const videoId = props.match.params.videoId;
@@ -32,7 +33,14 @@ function VideoDetailPage(props) {
                             controls
                         ></video>
 
-                        <List.Item>
+                        <List.Item
+                            actions={[
+                                <Subscribe
+                                    userTo={VideoDetail.writer._id}
+                                    userFrom={localStorage.getItem("userId")}
+                                />,
+                            ]}
+                        >
                             <List.Item.Meta
                                 avatar={
                                     <Avatar src={VideoDetail.writer && VideoDetail.writer.image} />
