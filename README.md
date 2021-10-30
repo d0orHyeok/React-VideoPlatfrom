@@ -1,4 +1,4 @@
-React Project - Youtube Clone
+React Project - VideoPlatfrom
 
 To use this application,
 
